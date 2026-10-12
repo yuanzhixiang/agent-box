@@ -8,7 +8,7 @@ export function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   return (
-    <div className="flex h-full bg-background text-foreground">
+    <div className="flex h-full bg-background pt-7 text-foreground before:fixed before:inset-x-0 before:top-0 before:h-7 before:bg-sidebar before:content-[''] before:[-webkit-app-region:drag]">
       <ThreadList selectedId={selectedId} onSelect={setSelectedId} />
       <main className="flex min-w-0 flex-1 flex-col">
         {selectedId ? (

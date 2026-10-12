@@ -134,6 +134,37 @@ function registerIpc(): void {
 
   ipcMain.handle("defaults:get", () => readDefaults());
 
+  ipcMain.handle("dialog:pick-attachments", async () => {
+    const result = await dialog.showOpenDialog(mainWindow!, {
+      title: "Attach files",
+      properties: ["openFile", "multiSelections"],
+      filters: [
+        {
+          name: "Supported files",
+          extensions: [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "gif",
+            "pdf",
+            "txt",
+            "md",
+            "json",
+            "html",
+            "yaml",
+            "yml",
+            "xml",
+            "csv",
+            "docx",
+            "xlsx",
+          ],
+        },
+      ],
+    });
+    return result.canceled ? [] : result.filePaths;
+  });
+
   ipcMain.handle("dialog:pick-directory", async () => {
     const result = await dialog.showOpenDialog(mainWindow!, {
       properties: ["openDirectory"],
@@ -176,13 +207,15 @@ function openExternalSafe(url: string): void {
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
-    width: 1360,
-    height: 880,
+    width: 1060,
+    height: 700,
     minWidth: 900,
     minHeight: 600,
+    center: true,
+    fullscreen: false,
     title: "Agent Box",
     titleBarStyle: "hiddenInset",
-    backgroundColor: "#0b0d10",
+    backgroundColor: "#ffffff",
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
       sandbox: false,

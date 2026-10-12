@@ -13,29 +13,25 @@ export function MessageItem({ item }: { item: TimelineItem }) {
       return <UserMessage text={item.text} at={item.at} images={item.images} />;
     case "agent":
       return item.phase === "commentary" ? (
-        <div className="text-[13px] text-subtle-foreground">
+        <div className="px-3 text-[14px] text-subtle-foreground">
           <MarkdownText text={item.text} />
         </div>
       ) : (
-        <div className="rounded-xl border border-border bg-card px-4 py-3 text-card-foreground">
-          <p className="mb-2 text-[11px] text-muted-foreground">
-            Codex 回复 · {formatClock(item.at)}
-          </p>
+        <div className="px-3 text-[14px] text-foreground">
           <MarkdownText text={item.text} />
         </div>
       );
     case "reasoning":
       return (
-        <p className="border-l-2 border-reasoning pl-3 text-[12px] whitespace-pre-wrap text-muted-foreground italic">
-          {item.text}
-        </p>
+        <details className="mx-3 text-[13px] text-muted-foreground [&_summary]:cursor-pointer [&_summary]:list-none">
+          <summary>Thought process</summary>
+          <div className="pt-2 leading-[1.6] whitespace-pre-wrap">
+            {item.text}
+          </div>
+        </details>
       );
     case "turn_start":
-      return (
-        <Divider
-          label={`回合开始 · ${formatClock(item.at)}${item.model ? ` · ${item.model}` : ""}${item.effort ? ` · ${item.effort}` : ""}`}
-        />
-      );
+      return null;
     case "turn_end":
       return (
         <Divider
@@ -67,12 +63,12 @@ function UserMessage({
   const [expanded, setExpanded] = useState(false);
   const long = text.split("\n").length > COLLAPSE_LINES || text.length > 1500;
   return (
-    <div className="rounded-xl border border-primary/40 bg-muted px-4 py-3">
-      <p className="mb-2 text-[11px] text-muted-foreground">
-        任务 · {formatClock(at)}
-      </p>
+    <div className="group relative mb-1.5 rounded border border-[#d5d5d5] bg-[#ececec] px-3 py-2.5">
+      <span className="absolute -top-[18px] right-0 hidden text-[10px] text-muted-foreground group-hover:block">
+        {formatClock(at)}
+      </span>
       <div
-        className={`text-[13px] leading-6 whitespace-pre-wrap select-text ${
+        className={`text-[14px] leading-6 whitespace-pre-wrap select-text ${
           long && !expanded
             ? "max-h-80 overflow-hidden [mask-image:linear-gradient(to_bottom,black_70%,transparent)]"
             : ""
@@ -107,11 +103,9 @@ function Divider({
 }) {
   return (
     <div
-      className={`flex items-center gap-3 text-[11px] ${tone === "danger" ? "text-danger" : "text-muted-foreground"}`}
+      className={`px-3 flex items-center gap-3 text-[11px] ${tone === "danger" ? "text-danger" : "text-muted-foreground"}`}
     >
-      <span className="h-px flex-1 bg-border" />
       <span>{label}</span>
-      <span className="h-px flex-1 bg-border" />
     </div>
   );
 }

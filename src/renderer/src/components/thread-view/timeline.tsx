@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { TimelineItem } from "../../../../shared/types";
 import { ActivityGroup } from "./activity-group";
 import { MessageItem } from "./message-item";
@@ -43,6 +43,7 @@ function toBlocks(items: TimelineItem[]): Block[] {
 
 /** 对话时间线；停在底部时跟随新内容滚动，用户往上翻时不打扰 */
 export function Timeline({ items, running }: TimelineProps) {
+  const [showJump, setShowJump] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const stickRef = useRef(true);
   const blocks = useMemo(() => toBlocks(items), [items]);
@@ -60,6 +61,7 @@ export function Timeline({ items, running }: TimelineProps) {
     if (el) {
       stickRef.current =
         el.scrollHeight - el.scrollTop - el.clientHeight < STICK_THRESHOLD_PX;
+      setShowJump(!stickRef.current);
     }
   }
 
@@ -67,9 +69,9 @@ export function Timeline({ items, running }: TimelineProps) {
     <div
       ref={scrollRef}
       onScroll={onScroll}
-      className="min-h-0 flex-1 overflow-y-auto px-6 py-6"
+      className="min-h-0 flex-1 overflow-y-auto px-6 pt-5 pb-3 [@media(max-width:1050px)]:px-4"
     >
-      <div className="mx-auto flex max-w-4xl flex-col gap-4">
+      <div className="mx-auto flex w-full max-w-[744px] flex-col gap-5 text-[14px]">
         {blocks.length === 0 && (
           <p className="text-center text-[13px] text-muted-foreground">
             这条对话还没有内容
@@ -93,6 +95,22 @@ export function Timeline({ items, running }: TimelineProps) {
           </p>
         )}
       </div>
+      {showJump && (
+        <button
+          className="absolute bottom-28 left-[calc(50%+130px)] size-7 rounded border border-input bg-white text-muted-foreground"
+          aria-label="Scroll to latest message"
+          onClick={() => {
+            const el = scrollRef.current;
+            if (el) {
+              el.scrollTop = el.scrollHeight;
+              stickRef.current = true;
+              setShowJump(false);
+            }
+          }}
+        >
+          ⌄
+        </button>
+      )}
     </div>
   );
 }

@@ -128,6 +128,9 @@ export interface TaskOptions {
   model: string;
   effort: string;
   fast: boolean;
+  autonomy?: "low" | "medium" | "high";
+  workMode?: "normal" | "spec";
+  attachments?: string[];
 }
 
 export interface ResumeOptions extends TaskOptions {
@@ -156,6 +159,7 @@ export interface AgentBoxApi {
   unsubscribeThread(id: string): Promise<void>;
   getDefaults(): Promise<Defaults>;
   pickDirectory(): Promise<string | null>;
+  pickAttachments(): Promise<string[]>;
   startTask(options: TaskOptions): Promise<RunInfo>;
   resumeTask(options: ResumeOptions): Promise<RunInfo>;
   stopRun(runId: string): Promise<void>;

@@ -1,153 +1,95 @@
 @import "tailwindcss";
 
-/* reference tokens：只放原始色值 */
-:root {
-  --ref-ink-950: #0b0d10;
-  --ref-ink-900: #111418;
-  --ref-ink-850: #161a1f;
-  --ref-ink-800: #1c2127;
-  --ref-ink-700: #272d35;
-  --ref-ink-600: #353c46;
-  --ref-ink-400: #7d8794;
-  --ref-ink-300: #a3acb8;
-  --ref-ink-100: #e6e9ed;
-  --ref-blue-500: #4c8dff;
-  --ref-blue-400: #6ea3ff;
-  --ref-green-500: #3fb950;
-  --ref-amber-500: #d29922;
-  --ref-red-500: #f85149;
-  --ref-violet-400: #b392f0;
-}
-
-/* semantic tokens：表达设计语义 */
-:root {
-  --background: var(--ref-ink-950);
-  --foreground: var(--ref-ink-100);
-  --sidebar: var(--ref-ink-900);
-  --card: var(--ref-ink-850);
-  --card-foreground: var(--ref-ink-100);
-  --muted: var(--ref-ink-800);
-  --muted-foreground: var(--ref-ink-400);
-  --subtle-foreground: var(--ref-ink-300);
-  --accent: var(--ref-ink-700);
-  --accent-foreground: var(--ref-ink-100);
-  --border: var(--ref-ink-700);
-  --input: var(--ref-ink-600);
-  --primary: var(--ref-blue-500);
-  --primary-hover: var(--ref-blue-400);
-  --primary-foreground: var(--ref-ink-950);
-  --success: var(--ref-green-500);
-  --warning: var(--ref-amber-500);
-  --danger: var(--ref-red-500);
-  --reasoning: var(--ref-violet-400);
-}
-
-/* Tailwind 桥接层 */
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-sidebar: var(--sidebar);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-subtle-foreground: var(--subtle-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-primary: var(--primary);
-  --color-primary-hover: var(--primary-hover);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-success: var(--success);
-  --color-warning: var(--warning);
-  --color-danger: var(--danger);
-  --color-reasoning: var(--reasoning);
+@theme {
+  --color-background: #fff;
+  --color-foreground: #181818;
+  --color-sidebar: color-mix(in oklab, #181818 1.5%, #fff);
+  --color-card: #fff;
+  --color-card-foreground: #181818;
+  --color-muted: #f6f6f6;
+  --color-muted-foreground: color-mix(in oklab, #181818 45%, #fff);
+  --color-subtle-foreground: color-mix(in oklab, #181818 72%, #fff);
+  --color-accent: color-mix(in oklab, #181818 10%, #fff);
+  --color-accent-foreground: #181818;
+  --color-border: color-mix(in oklab, #181818 5%, #fff);
+  --color-input: color-mix(in oklab, #181818 30%, #fff);
+  --color-primary: #181818;
+  --color-primary-hover: #444;
+  --color-primary-foreground: #fff;
+  --color-success: #3b6f32;
+  --color-warning: #93570a;
+  --color-danger: #a91f10;
+  --color-reasoning: #888;
   --font-body:
-    -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", sans-serif;
-  --font-mono: "SF Mono", ui-monospace, Menlo, monospace;
+    "Geist", -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, Menlo, monospace;
 }
 
-html,
-body,
-#root {
-  height: 100%;
+@font-face {
+  font-family: Geist;
+  src: url("./assets/Geist-Regular-B09XU11q.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
 }
-
-body {
-  margin: 0;
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-body);
-  font-size: 14px;
-  -webkit-font-smoothing: antialiased;
+@font-face {
+  font-family: Geist;
+  src: url("./assets/Geist-Medium-k5lpEdZ1.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
 }
-
-/* macOS 隐藏标题栏后，顶部这条区域用来拖动窗口 */
-.drag-region {
-  -webkit-app-region: drag;
-}
-.no-drag {
-  -webkit-app-region: no-drag;
-}
-
-/* agent 回复的 Markdown 排版 */
-.prose-agent {
-  line-height: 1.65;
-  overflow-wrap: anywhere;
-}
-.prose-agent p,
-.prose-agent ul,
-.prose-agent ol,
-.prose-agent pre,
-.prose-agent table {
-  margin: 0 0 8px;
-}
-.prose-agent > :last-child {
-  margin-bottom: 0;
-}
-.prose-agent ul {
-  list-style: disc;
-  padding-left: 20px;
-}
-.prose-agent ol {
-  list-style: decimal;
-  padding-left: 20px;
-}
-.prose-agent h1,
-.prose-agent h2,
-.prose-agent h3 {
+@font-face {
+  font-family: Geist;
+  src: url("./assets/Geist-SemiBold-Cp1mfbYv.woff2") format("woff2");
   font-weight: 600;
-  margin: 12px 0 8px;
+  font-display: swap;
 }
-.prose-agent code {
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  background: var(--muted);
-  border-radius: 4px;
-  padding: 1px 4px;
+@font-face {
+  font-family: Geist;
+  src: url("./assets/Geist-Bold-CyJckHpV.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
 }
-.prose-agent pre {
-  background: var(--muted);
-  border-radius: 8px;
-  padding: 12px;
-  overflow-x: auto;
+@font-face {
+  font-family: "Geist Mono";
+  src: url("./assets/GeistMono-Regular-QDbm65zM.woff2") format("woff2");
+  font-display: swap;
 }
-.prose-agent pre code {
-  background: none;
-  padding: 0;
-}
-.prose-agent table {
-  border-collapse: collapse;
-  display: block;
-  overflow-x: auto;
-}
-.prose-agent th,
-.prose-agent td {
-  border: 1px solid var(--border);
-  padding: 4px 8px;
-  text-align: left;
-}
-.prose-agent a {
-  color: var(--primary);
+
+@layer base {
+  html,
+  body,
+  #root {
+    @apply h-full;
+  }
+  body {
+    @apply m-0 bg-background font-body text-[14px] leading-[1.55] text-foreground antialiased;
+  }
+  button,
+  select,
+  input,
+  textarea {
+    @apply [font:inherit];
+  }
+  button {
+    @apply cursor-pointer disabled:cursor-not-allowed;
+  }
+  button,
+  select,
+  input,
+  summary {
+    @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#aaa];
+  }
+  ::-webkit-scrollbar {
+    @apply size-1.5;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-[6px] bg-[#d5d5d5];
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      @apply animate-none! scroll-auto!;
+    }
+  }
 }

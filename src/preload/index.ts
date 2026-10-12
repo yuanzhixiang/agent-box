@@ -14,6 +14,7 @@ const api: AgentBoxApi = {
   subscribeThread: (id) => ipcRenderer.invoke("thread:subscribe", id),
   unsubscribeThread: (id) => ipcRenderer.invoke("thread:unsubscribe", id),
   getDefaults: () => ipcRenderer.invoke("defaults:get"),
+  pickAttachments: () => ipcRenderer.invoke("dialog:pick-attachments"),
   pickDirectory: () => ipcRenderer.invoke("dialog:pick-directory"),
   startTask: (options) => ipcRenderer.invoke("run:start", options),
   resumeTask: (options) => ipcRenderer.invoke("run:resume", options),
